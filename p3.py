@@ -16,16 +16,17 @@ from typing import Dict, List, Optional, Any
 import pytz
 
 # Настройка логирования с UTF-8
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('discount_rules_etl.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#     handlers=[
+#         logging.FileHandler('discount_rules_etl.log', encoding='utf-8'),
+#         logging.StreamHandler()
+#     ]
+# )
+# print = logging.getLogger(__name__)
 
+print("Логирование настроено. См. файл discount_rules_etl.log для подробностей.")
 
 class Config:
     """Конфигурация подключения к API и БД"""
@@ -42,6 +43,7 @@ class Config:
     ENDPOINTS = {
         'login': '/api/login',
         'discount_rules': '/discountRule/list',
+        'sku_sets': '/skuSet/list',
         'sku_sets': '/skuSet/list',
         'locations': '/location/list',
         'merchants': '/merchant/list',
@@ -60,17 +62,41 @@ class MappingLoader:
         """Возвращает все маппинги"""
         return {
             'data_values': {
-                1: "Локація",
-                2: "Мерчант",
-                3: "Термінал",
-                4: "Категорія картки",
-                5: "Категорія клієнта",
-                6: "Сума чека",
-                7: "Клієнт",
-                8: "Час доби",
-                9: "День тижня",
-                10: "Дата",
-                11: "Оператор"
+                2: "POS-термінал",
+                5: "Емітент",
+                0: "Організація",
+                1: "Підрозділ",
+                22: "Термінальна група",
+                27: "Анкетні дані",
+                13: "Вік",
+                9: "День народження",
+                6: "Категорія контрагента",
+                7: "Контрагент",
+                30: "Кіл-ть днів до ДН",
+                31: "Кіл-ть днів після ДН",
+                16: "Кількість балів",
+                26: "Сегмент / цільова група",
+                21: "Соціальна група",
+                12: "Стать",
+                8: "День в році",
+                10: "День тижня",
+                11: "Час",
+                35: "Без картки",
+                3: "Категорія картки",
+                28: "Можливості картки",
+                15: "Стаж картки в системі, років",
+                4: "Статус картки",
+                34: "Кіл-ть днів після останньої покупки ПММ",
+                24: "Кіл-ть днів після останньої покупки товарів",
+                25: "Кіл-ть днів після першої покупки",
+                17: "Кількість бонусів",
+                14: "Статистика покупок",
+                32: "Статистика покупок ПММ",
+                23: "Статистика покупок товарів",
+                33: "Випадковий чек (ймовірність по підрозділах, %)",
+                29: "Випадковий чек (ймовірність, %)",
+                20: "Тип чека",
+                19: "Форма оплати"
             },
             'operators': {
                 0: "=",
@@ -83,22 +109,27 @@ class MappingLoader:
                 7: "NOT IN"
             },
             'product_values': {
-                1: "Номенклатура",
-                2: "Група номенклатури",
-                3: "Набір номенклатури",
-                4: "Паливо",
-                5: "Кількість",
-                6: "Сума"
+                18: "Група товарів",
+                20: "Заправка до повного бака",
+                17: "Знижка,%",
+                2: "Кількість позицій",
+                15: "Не присутній",
+                5: "Присутній",
+                1: "Сума кількості товарів",
+                4: "Сума оплати бонусами, грн",
+                16: "Сума оплати бонусами,%",
+                9: "Сума товарів без урахування знижки і оплат бонусами, грн",
+                19: "Сума товарів з урахуванням знижки але без оплат бонусами, грн",
+                6: "Сума товарів з урахуванням знижки та оплат бонусами, грн"
             },
             'cond_values': {
-                1: "Номенклатура",
-                2: "Група номенклатури",
-                3: "Набір номенклатури",
-                4: "Паливо",
-                5: "Кількість",
-                6: "Сума",
-                7: "Ціна",
-                8: "Вага"
+                0: "Кількість кожної номенклатури (точний збіг)",
+                1: "Сума кількості номенклатури не більше",
+                2: "На суму не більше",
+                3: "Кількість позицій",
+                4: "Позиції без застосованих знижок",
+                5: "Купон по товару",
+                6: "Сума кількості номенклатури не менше"
             },
             'status': {
                 0: "Не активно",
@@ -126,32 +157,49 @@ class MappingLoader:
                 1: "За розкладом"
             },
             'result_type': {
-                1: "Фіксована знижка",
-                2: "Відсоткова знижка",
-                3: "Фіксована ціна",
-                4: "Бонуси",
-                5: "Безкоштовний товар",
-                6: "Набір товарів",
-                7: "Кешбек",
-                8: "Мультиплікатор бонусів",
-                9: "Знижка на набір"
+                9: " ",
+                1: "Категорія картки",
+                2: "Категорія контрагента",
+                5: "Кількість позицій",
+                7: "Статистика покупок",
+                13: "Статистика покупок ПММ",
+                12: "Статистика покупок товарів",
+                0: "Статус картки",
+                4: "Сума кількості товарів",
+                8: "Сума оплати бонусами",
+                10: "Сума товарів включаючи знижки і оплату бонусами",
+                3: "Сума товарів не включаючи знижки і оплату бонусами"
             },
-            'value_type': {
-                0: "Фіксоване значення",
-                1: "Вираз"
+            'comparison_type': {
+                0: "=",
+                1: "!=",
+                2: ">",
+                3: "<",
+                4: ">=",
+                5: "<=",
+                6: "В діапазоні",
+                7: "Поза діапазоном",
+                8: "В списку",
+                9: "Не в списку",
+                12: "Не вказано",
+                13: "Вказано"
             },
             'discount_value_type': {
-                0: "Відсоток",
-                1: "Сума"
+                0: "%",
+                1: "На весь чек, грн",
+                2: "На ціну, грн",
+                3: "За типом ціни"
+            },
+            'value_type': {
+                0: "Фікс. значення",
+                1: "Вираз",
+                2: "За ціною номенклатури"
             },
             'discount_time_type': {
-                0: "Разом",
-                1: "За одиницю"
+                0: "Поточний чек",
+                1: "Відкладене знижка",
+                2: "Промо-код"
             },
-            'sort_items_mode': {
-                0: "За зростанням ціни",
-                1: "За спаданням ціни"
-            }
         }
 
 
@@ -169,25 +217,36 @@ class SQLiteManager:
         await self.conn.execute("PRAGMA foreign_keys = OFF")
         await self.conn.execute("PRAGMA journal_mode = WAL")
         await self.conn.commit()
-        logger.info(f"Подключено к БД: {self.db_path}")
+        print(f"Подключено к БД: {self.db_path}")
     
     async def enable_foreign_keys(self):
         """Включение проверки внешних ключей после загрузки"""
         await self.conn.execute("PRAGMA foreign_keys = ON")
         await self.conn.commit()
-        logger.info("Внешние ключи включены")
+        print("Внешние ключи включены")
     
     async def close(self):
         """Закрытие соединения"""
         if self.conn:
             await self.conn.close()
-            logger.info("Соединение с БД закрыто")
+            print("Соединение с БД закрыто")
     
     async def create_schema(self):
         """Создание схемы БД с внешними ключами"""
+
+        
         
         # 1. Справочные таблицы маппинга (создаются первыми)
         await self.conn.executescript("""
+            CREATE TABLE IF NOT EXISTS mapping_comparison_type (
+                id INTEGER PRIMARY KEY,
+                name TEXT NOT NULL UNIQUE
+            );
+
+            CREATE TABLE IF NOT EXISTS mapping_discount_value_type (
+                id INTEGER PRIMARY KEY,
+                name TEXT NOT NULL UNIQUE
+            );
             -- Справочник статусов
             CREATE TABLE IF NOT EXISTS mapping_status (
                 id INTEGER PRIMARY KEY,
@@ -254,20 +313,9 @@ class SQLiteManager:
                 name TEXT NOT NULL UNIQUE
             );
             
-            -- Справочник типов значений скидки
-            CREATE TABLE IF NOT EXISTS mapping_discount_value_type (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL UNIQUE
-            );
             
             -- Справочник типов времени скидки
             CREATE TABLE IF NOT EXISTS mapping_discount_time_type (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL UNIQUE
-            );
-            
-            -- Справочник режимов сортировки товаров
-            CREATE TABLE IF NOT EXISTS mapping_sort_items_mode (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL UNIQUE
             );
@@ -312,7 +360,7 @@ class SQLiteManager:
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
                 ext_code TEXT,
-                pos_name TEXT,
+                skus TEXT,
                 removed INTEGER DEFAULT 0,
                 only_product INTEGER DEFAULT 0,
                 only_fuel INTEGER DEFAULT 0
@@ -331,8 +379,8 @@ class SQLiteManager:
                 operator_message TEXT,
                 operator_id INTEGER,
                 operator_id_desc TEXT,
-                begin_date TEXT,
-                end_date TEXT,
+                begin_date BIGINT,
+                end_date BIGINT,
                 status INTEGER NOT NULL DEFAULT 0,
                 priority INTEGER,
                 isolation_level INTEGER,
@@ -347,8 +395,7 @@ class SQLiteManager:
                 FOREIGN KEY (status) REFERENCES mapping_status(id),
                 FOREIGN KEY (isolation_level) REFERENCES mapping_isolation_level(id),
                 FOREIGN KEY (apply_mode) REFERENCES mapping_apply_mode(id),
-                FOREIGN KEY (scheduling_mode) REFERENCES mapping_scheduling_mode(id),
-                FOREIGN KEY (exclude_sku_set_id) REFERENCES sku_sets(id)
+                FOREIGN KEY (scheduling_mode) REFERENCES mapping_scheduling_mode(id)
             );
             CREATE INDEX IF NOT EXISTS idx_discount_rules_name ON discount_rules(name);
             CREATE INDEX IF NOT EXISTS idx_discount_rules_status ON discount_rules(status);
@@ -376,15 +423,11 @@ class SQLiteManager:
             CREATE TABLE IF NOT EXISTS order_conditions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 discount_rule_id INTEGER NOT NULL,
-                sku_set_id INTEGER,
-                exclude_sku_set_id INTEGER,
                 condition_type INTEGER NOT NULL,
                 comparison_type INTEGER NOT NULL,
                 value TEXT,
                 group_name TEXT,
                 FOREIGN KEY (discount_rule_id) REFERENCES discount_rules(id) ON DELETE CASCADE,
-                FOREIGN KEY (sku_set_id) REFERENCES sku_sets(id),
-                FOREIGN KEY (exclude_sku_set_id) REFERENCES sku_sets(id),
                 FOREIGN KEY (condition_type) REFERENCES mapping_product_values(id),
                 FOREIGN KEY (comparison_type) REFERENCES mapping_operators(id)
             );
@@ -393,29 +436,28 @@ class SQLiteManager:
         
         # 6. Результаты применения скидок
         await self.conn.executescript("""
+                                      
+            
+                                      
             CREATE TABLE IF NOT EXISTS result_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 discount_rule_id INTEGER NOT NULL,
                 result_type INTEGER NOT NULL,
                 comparison_type INTEGER,
+                value TEXT,
                 value_type INTEGER,
-                fixed_value REAL,
+                fixed_value FLOAT,
                 expression TEXT,
                 discount_value_type INTEGER,
                 discount_time_type INTEGER,
                 sku_set_id INTEGER,
-                except_sku_set_id INTEGER,
-                sort_items_mode INTEGER,
                 group_apply_mode INTEGER,
+                sort_items_mode INTEGER,
                 FOREIGN KEY (discount_rule_id) REFERENCES discount_rules(id) ON DELETE CASCADE,
                 FOREIGN KEY (result_type) REFERENCES mapping_result_type(id),
-                FOREIGN KEY (comparison_type) REFERENCES mapping_operators(id),
                 FOREIGN KEY (value_type) REFERENCES mapping_value_type(id),
-                FOREIGN KEY (discount_value_type) REFERENCES mapping_discount_value_type(id),
                 FOREIGN KEY (discount_time_type) REFERENCES mapping_discount_time_type(id),
                 FOREIGN KEY (sku_set_id) REFERENCES sku_sets(id),
-                FOREIGN KEY (except_sku_set_id) REFERENCES sku_sets(id),
-                FOREIGN KEY (sort_items_mode) REFERENCES mapping_sort_items_mode(id),
                 FOREIGN KEY (group_apply_mode) REFERENCES mapping_group_apply_mode(id)
             );
             CREATE INDEX IF NOT EXISTS idx_result_items_rule ON result_items(discount_rule_id);
@@ -435,7 +477,7 @@ class SQLiteManager:
         """)
         
         await self.conn.commit()
-        logger.info("Схема БД создана успешно")
+        print("Схема БД создана успешно")
     
     async def load_mapping_tables(self):
         """Загрузка справочных таблиц маппинга"""
@@ -454,7 +496,7 @@ class SQLiteManager:
                     (id_val, name_val)
                 )
             
-            logger.info(f"Загружено {len(data)} записей в {table_name}")
+            print(f"Загружено {len(data)} записей в {table_name}")
         
         await self.conn.commit()
 
@@ -488,19 +530,19 @@ class DiscountRulesAPI:
             "password": Config.PASSWORD
         }
         
-        logger.debug(f"Авторизация: POST {url}")
-        logger.debug(f"Payload: {payload}")
+        print(f"Авторизация: POST {url}")
+        print(f"Payload: {payload}")
         
         async with self.session.post(url, json=payload) as response:
             response_text = await response.text()
-            logger.debug(f"Статус авторизации: {response.status}")
-            logger.debug(f"Ответ: {response_text[:500]}")
+            print(f"Статус авторизации: {response.status}")
+            print(f"Ответ: {response_text[:500]}")
             
             if response.status == 200:
                 # Сохраняем cookies из ответа
                 self.cookies = response.cookies
-                logger.info("Успешная авторизация")
-                logger.debug(f"Полученные cookies: {self.cookies}")
+                print("Успешная авторизация")
+                print(f"Полученные cookies: {self.cookies}")
             else:
                 raise Exception(f"Ошибка авторизации: {response.status}")
     
@@ -530,37 +572,37 @@ class DiscountRulesAPI:
                 }
             }
             
-            logger.debug(f"Запрос к {endpoint}: offset={offset}")
-            logger.debug(f"Payload: {json.dumps(payload, ensure_ascii=False)}")
-            logger.debug(f"Headers: {headers}")
-            logger.debug(f"Cookies: {self.cookies}")
+            # print(f"Запрос к {endpoint}: offset={offset}")
+            # print(f"Payload: {json.dumps(payload, ensure_ascii=False)}")
+            # print(f"Headers: {headers}")
+            # print(f"Cookies: {self.cookies}")
             
             # Передаем cookies и headers явно
             async with self.session.post(url, json=payload, headers=headers, cookies=self.cookies) as response:
                 response_text = await response.text()
                 
-                logger.debug(f"Статус ответа от {endpoint}: {response.status}")
-                logger.debug(f"Первые 1000 символов ответа: {response_text[:1000]}")
+                # print(f"Статус ответа от {endpoint}: {response.status}")
+                # print(f"Первые 1000 символов ответа: {response_text[:1000]}")
                 
                 if response.status != 200:
-                    logger.error(f"Ошибка запроса {endpoint}: {response.status}")
-                    logger.error(f"Полный ответ: {response_text}")
+                    print(f"Ошибка запроса {endpoint}: {response.status}")
+                    print(f"Полный ответ: {response_text}")
                     break
                 
                 try:
                     data = json.loads(response_text)
-                    logger.debug(f"Структура ответа: {list(data.keys()) if isinstance(data, dict) else type(data)}")
+                    # print(f"Структура ответа: {list(data.keys()) if isinstance(data, dict) else type(data)}")
                     
                     items = data.get('data', [])
                     total_count = data.get('count', 0)
                     
                     if not items:
-                        logger.warning(f"Нет данных в поле 'data' для {endpoint}")
-                        logger.debug(f"Полный ответ: {json.dumps(data, ensure_ascii=False, indent=2)[:2000]}")
+                        print.warning(f"Нет данных в поле 'data' для {endpoint}")
+                        print(f"Полный ответ: {json.dumps(data, ensure_ascii=False, indent=2)[:2000]}")
                         break
                     
                     all_data.extend(items)
-                    logger.info(f"Получено {len(items)} записей из {endpoint} (offset: {offset}, total: {total_count})")
+                    print(f"Получено {len(items)} записей из {endpoint} (offset: {offset}, total: {total_count})")
                     
                     if len(items) < Config.BATCH_SIZE:
                         break
@@ -568,12 +610,41 @@ class DiscountRulesAPI:
                     offset += Config.BATCH_SIZE
                     
                 except json.JSONDecodeError as e:
-                    logger.error(f"Ошибка парсинга JSON из {endpoint}: {e}")
-                    logger.error(f"Ответ: {response_text[:1000]}")
+                    print(f"Ошибка парсинга JSON из {endpoint}: {e}")
+                    print(f"Ответ: {response_text[:1000]}")
                     break
         
-        logger.info(f"Всего получено {len(all_data)} записей из {endpoint}")
+        print(f"Всего получено {len(all_data)} записей из {endpoint}")
         return all_data
+    
+    async def fetch_sku_set_details(self, sku_set_id: int) -> List[int]:
+        """Получение деталей набора товаров"""
+        print("получения деталей SKU set")
+        if not sku_set_id:
+            return []
+        
+        url = f"{self.base_url}/skuSet/get"
+        
+        headers = {
+            'accept': '*/*',
+            'content-type': 'application/json',
+            'origin': self.base_url,
+            'referer': f"{self.base_url}/",
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        
+        payload = {"id": sku_set_id}
+        
+        try:
+            async with self.session.post(url, json=payload, headers=headers, cookies=self.cookies) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    skus = data.get('data', {}).get('skus', [])
+                    return [sku.get('id') for sku in skus if sku.get('id')]
+                return []
+        except Exception as e:
+            print(f"Ошибка получения SKU set {sku_set_id}: {e}")
+            return []
 
 
 class DataProcessor:
@@ -589,7 +660,7 @@ class DataProcessor:
             dt = datetime.fromtimestamp(timestamp / 1000, tz=pytz.UTC)
             return dt.strftime("%Y-%m-%d-%H-%M")
         except Exception as e:
-            logger.warning(f"Ошибка конвертации timestamp {timestamp}: {e}")
+            print.warning(f"Ошибка конвертации timestamp {timestamp}: {e}")
             return None
     
     @staticmethod
@@ -617,7 +688,7 @@ class DataProcessor:
             return json.dumps(value_obj)
             
         except Exception as e:
-            logger.warning(f"Ошибка парсинга value: {value_str[:100] if value_str else 'None'}... - {e}")
+            print.warning(f"Ошибка парсинга value: {value_str[:100] if value_str else 'None'}... - {e}")
             return value_str
 
 
@@ -636,9 +707,9 @@ class ETLPipeline:
     async def run(self):
         """Запуск ETL процесса"""
         try:
-            logger.info("=" * 80)
-            logger.info("СТАРТ ETL ПРОЦЕССА")
-            logger.info("=" * 80)
+            print("=" * 80)
+            print("СТАРТ ETL ПРОЦЕССА")
+            print("=" * 80)
             
             # 1. Подключение к БД
             await self.db.connect()
@@ -660,12 +731,12 @@ class ETLPipeline:
             # 7. Включаем FK после загрузки всех данных
             await self.db.enable_foreign_keys()
             
-            logger.info("=" * 80)
-            logger.info("ETL ПРОЦЕСС ЗАВЕРШЕН УСПЕШНО")
-            logger.info("=" * 80)
+            print("=" * 80)
+            print("ETL ПРОЦЕСС ЗАВЕРШЕН УСПЕШНО")
+            print("=" * 80)
             
         except Exception as e:
-            logger.error(f"Ошибка в ETL процессе: {e}", exc_info=True)
+            print(f"Ошибка в ETL процессе: {e}")
             raise
         finally:
             await self.db.close()
@@ -674,7 +745,7 @@ class ETLPipeline:
         """Загрузка справочников"""
         
         # Merchants
-        logger.info("Загрузка merchants...")
+        print("Загрузка merchants...")
         merchants = await api.fetch_data(Config.ENDPOINTS['merchants'])
         await self.db.conn.execute("DELETE FROM merchants")
         
@@ -687,10 +758,10 @@ class ETLPipeline:
             self.reference_cache['merchants'][merchant['id']] = merchant.get('name')
         
         await self.db.conn.commit()
-        logger.info(f"Загружено {len(merchants)} merchants")
+        print(f"Загружено {len(merchants)} merchants")
         
         # Locations
-        logger.info("Загрузка locations...")
+        print("Загрузка locations...")
         locations = await api.fetch_data(Config.ENDPOINTS['locations'])
         await self.db.conn.execute("DELETE FROM locations")
         
@@ -712,10 +783,10 @@ class ETLPipeline:
             self.reference_cache['locations'][location['id']] = location.get('name')
         
         await self.db.conn.commit()
-        logger.info(f"Загружено {len(locations)} locations")
+        print(f"Загружено {len(locations)} locations")
         
         # Terminals
-        logger.info("Загрузка terminals...")
+        print("Загрузка terminals...")
         terminals = await api.fetch_data(Config.ENDPOINTS['terminals'])
         await self.db.conn.execute("DELETE FROM terminals")
         
@@ -733,36 +804,48 @@ class ETLPipeline:
             self.reference_cache['terminals'][terminal['id']] = terminal.get('name')
         
         await self.db.conn.commit()
-        logger.info(f"Загружено {len(terminals)} terminals")
+        print(f"Загружено {len(terminals)} terminals")
         
         # SKU Sets
-        logger.info("Загрузка sku_sets...")
+        # SKU Sets
+        print("Загрузка sku_sets...")
         sku_sets = await api.fetch_data(Config.ENDPOINTS['sku_sets'])
         await self.db.conn.execute("DELETE FROM sku_sets")
-        
-        for sku_set in sku_sets:
+
+        for idx, sku_set in enumerate(sku_sets, 1):
+            sku_set_id = sku_set.get('id')
+            
+            # Получаем детали SKU set
+            skus = []
+            if sku_set_id:
+                skus = await api.fetch_sku_set_details(sku_set_id)
+            
             await self.db.conn.execute(
                 """INSERT OR REPLACE INTO sku_sets 
-                   (id, name, ext_code, pos_name, removed, only_product, only_fuel)
-                   VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (id, name, ext_code, skus, removed, only_product, only_fuel)
+                VALUES (?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    sku_set.get('id'),
+                    sku_set_id,
                     sku_set.get('name'),
                     sku_set.get('extCode'),
-                    sku_set.get('posName'),
+                    json.dumps(skus) if skus else None,  # ← JSON массив
                     sku_set.get('removed', 0),
                     sku_set.get('onlyProduct', 0),
                     sku_set.get('onlyFuel', 0)
                 )
             )
-            self.reference_cache['sku_sets'][sku_set['id']] = sku_set.get('name')
-        
+            
+            if idx % 10 == 0:
+                print(f"Обработано {idx}/{len(sku_sets)} sku_sets")
+            
+            self.reference_cache['sku_sets'][sku_set_id] = sku_set.get('name')
+
         await self.db.conn.commit()
-        logger.info(f"Загружено {len(sku_sets)} sku_sets")
+        print(f"Загружено {len(sku_sets)} sku_sets")
     
     async def load_discount_rules(self, api: DiscountRulesAPI):
         """Загрузка правил скидок"""
-        logger.info("Загрузка discount_rules...")
+        print("Загрузка discount_rules...")
         
         rules = await api.fetch_data(Config.ENDPOINTS['discount_rules'], sort_field='priority')
         
@@ -778,13 +861,13 @@ class ETLPipeline:
             try:
                 await self.process_single_rule(rule)
                 if idx % 10 == 0:
-                    logger.info(f"Обработано {idx}/{len(rules)} правил")
+                    print(f"Обработано {idx}/{len(rules)} правил")
             except Exception as e:
-                logger.error(f"Ошибка обработки правила {rule.get('id')}: {e}", exc_info=True)
+                print(f"Ошибка обработки правила {rule.get('id')}: {e}")
                 continue
         
         await self.db.conn.commit()
-        logger.info(f"Обработано {len(rules)} правил скидок")
+        print(f"Обработано {len(rules)} правил скидок")
     
     async def process_single_rule(self, rule: Dict):
         """Обработка одного правила скидки"""
@@ -808,8 +891,8 @@ class ETLPipeline:
                 rule.get('operatorMessage'),
                 rule.get('operatorId'),
                 rule.get('operatorIdDesc'),
-                DataProcessor.timestamp_to_datetime(rule.get('beginDate')),
-                DataProcessor.timestamp_to_datetime(rule.get('endDate')),
+                rule.get('beginDate'),
+                rule.get('endDate'),
                 rule.get('status', 0),
                 rule.get('priority'),
                 rule.get('isolationLevel'),
@@ -851,13 +934,10 @@ class ETLPipeline:
             for cond in required_conditions:
                 await self.db.conn.execute(
                     """INSERT INTO order_conditions 
-                       (discount_rule_id, sku_set_id, exclude_sku_set_id, 
-                        condition_type, comparison_type, value, group_name)
-                       VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                       (discount_rule_id, condition_type, comparison_type, value, group_name)
+                       VALUES (?, ?, ?, ?, ?)""",
                     (
                         rule_id,
-                        cond.get('skuSetId'),
-                        cond.get('excludeSkuSetId'),
                         cond.get('type'),
                         cond.get('comparsionType'),
                         DataProcessor.parse_value_field(cond.get('value')),
@@ -870,6 +950,8 @@ class ETLPipeline:
         
         for scale_item in result_scale_items:
             result_type = scale_item.get('type')
+            comparison_type = scale_item.get('comparsionType')  # ← ДОБАВЛЕНО
+            value = scale_item.get('value')  # ← ДОБАВЛЕНО
             results = scale_item.get('results', []) or []
             
             for result in results:
@@ -878,23 +960,23 @@ class ETLPipeline:
                 # Вставка результата
                 cursor = await self.db.conn.execute(
                     """INSERT INTO result_items (
-                        discount_rule_id, result_type, comparison_type, value_type,
-                        fixed_value, expression, discount_value_type, discount_time_type,
-                        sku_set_id, except_sku_set_id, sort_items_mode, group_apply_mode
+                        discount_rule_id, result_type, comparison_type, value,
+                        value_type, fixed_value, expression, discount_value_type,
+                        discount_time_type, sku_set_id, group_apply_mode, sort_items_mode
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         rule_id,
                         result_type,
-                        result.get('comparsionType'),
+                        comparison_type,  # ← ДОБАВЛЕНО
+                        value,  # ← ДОБАВЛЕНО
                         result.get('valueType'),
                         result.get('fixedValue'),
                         result.get('expression'),
-                        result.get('discountValueType'),
+                        result.get('discountValueType'),  # ← ДОБАВЛЕНО
                         result.get('discountTimeType'),
                         restriction.get('skuSetId'),
-                        restriction.get('exceptSkuSetId'),
-                        restriction.get('sortItemsMode'),
-                        restriction.get('groupApplyMode')
+                        restriction.get('groupApplyMode'),
+                        restriction.get('sortItemsMode')  # ← ДОБАВЛЕНО
                     )
                 )
                 
@@ -906,8 +988,8 @@ class ETLPipeline:
                 for cond in conditions:
                     await self.db.conn.execute(
                         """INSERT INTO result_item_conditions 
-                           (result_item_id, condition_type, value)
-                           VALUES (?, ?, ?)""",
+                        (result_item_id, condition_type, value)
+                        VALUES (?, ?, ?)""",
                         (
                             result_item_id,
                             cond.get('type'),

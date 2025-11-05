@@ -1,0 +1,1503 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт по правилах знижок</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin: 40px 0 20px 0;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 22px;
+        }
+        
+        .meta-info {
+            background: #ecf0f1;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .meta-info div {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .meta-info strong {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+            transition: background 0.2s;
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .badge-archive {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .badge-test {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .no-data {
+            padding: 40px;
+            text-align: center;
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .number-cell {
+            text-align: right;
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Звіт по правилах знижок</h1>
+        <div class="meta-info">
+            <div><strong>База даних:</strong> discount_rules.db</div>
+            <div><strong>Дата генерації:</strong> 2025-10-30 15:05:14</div>
+        </div>
+<h2>📈 Загальна статистика</h2><div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Правила знижок</h3>
+                    <div class="number">215</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Умови правил</h3>
+                    <div class="number">249</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Умови на чек</h3>
+                    <div class="number">75</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Результати</h3>
+                    <div class="number">527</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Умови результатів</h3>
+                    <div class="number">156</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Набори товарів</h3>
+                    <div class="number">380</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Локації</h3>
+                    <div class="number">977</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Мерчанти</h3>
+                    <div class="number">16</div>
+                </div>
+            
+                <div class="stat-card">
+                    <h3>Термінали</h3>
+                    <div class="number">1,704</div>
+                </div>
+            </div><h2>✅ Активні правила знижок</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Назва правила</th>
+                            <th>Статус</th>
+                            <th>Пріоритет</th>
+                            <th>Дата початку</th>
+                            <th>Дата закінчення</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    <tr>
+                        <td class="number-cell">798</td>
+                        <td><strong>ТЕСТ_7777</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">100</td>
+                        <td>2025-10-12-21-00</td>
+                        <td>2025-10-15-09-52</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">125</td>
+                        <td><strong>персональная скидка 5% Рулька 1000723053</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">98</td>
+                        <td>2024-05-08-21-00</td>
+                        <td>2025-09-30-20-59</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">33</td>
+                        <td><strong>Скидка на овощи -50% Харьков+БЦ</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">66</td>
+                        <td>2023-03-24-22-00</td>
+                        <td>2025-12-31-22-00</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">137</td>
+                        <td><strong>тест Васюха 1=2</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">61</td>
+                        <td>2025-01-19-23-21</td>
+                        <td>2025-02-28-21-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">141</td>
+                        <td><strong>Гунін Скидка 25% КУЛИНАРИЯ (220/240/267) 19:00</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">58</td>
+                        <td>2024-10-20-21-30</td>
+                        <td>2025-12-31-21-29</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">796</td>
+                        <td><strong>ахтирка_сири_ваговий_15 грн_13521_1-5</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">56</td>
+                        <td>2025-10-27-23-00</td>
+                        <td>2025-10-31-08-21</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">45</td>
+                        <td><strong>Пропозиція роботи</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2023-07-31-21-00</td>
+                        <td>2025-12-31-21-59</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">134</td>
+                        <td><strong>Гу(1) 1=2 Дитяча в/с (натурин) (ТМ БМК) (код 10934) + Вершки ультрапастеризовані 31979 / 45126 / 8394 / 45421</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-21-21-30</td>
+                        <td>2025-10-05-20-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">136</td>
+                        <td><strong>Гу(2) 1=2 ГОРІХОВА Н/К (ФАБІОС 60) (СМК) (код 16640) + Молоко Галичина 2,5% т/ф 0,9л (код 3261)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-21-21-30</td>
+                        <td>2025-10-05-20-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">138</td>
+                        <td><strong>Гу(3) 1=2 САРДЕЛЬКИ ЯЛОВИЧІ (ЧЕРЕВА) (СМК) (код 26) + Кетчуп Шашличний Оліс д/п 250гр (код 28380) / Кетчуп Лагідний Оліс д/п 250гр (код 28212) / Кетчуп з часником Оліс д/п 250гр (код 44947)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-21-21-30</td>
+                        <td>2025-10-05-20-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">143</td>
+                        <td><strong>Гу(5) 1=2 Бутербродна н/к в/с прес КМК (код 41330) + Вершки ультрапастеризовані 31979 / 45126 / 8394 / 45421</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-21-21-30</td>
+                        <td>2025-10-05-20-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">144</td>
+                        <td><strong>Гунін Скидка 20% КУЛИНАРИЯ (БЦ100/БЦ87/данБЦ113/БЦ27) 19:00</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2024-12-05-22-10</td>
+                        <td>2025-12-31-21-45</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">175</td>
+                        <td><strong>Гунін Скидка 30% КУЛИНАРИЯ (128 Суббота весь день)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-02-28-22-30</td>
+                        <td>2025-12-31-21-25</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">246</td>
+                        <td><strong>Гу(4) 1=2 СОСИСКИ ТОПИКИ В/С (П/А) (СМК) (код 12027) + Кетчуп Шашличний Оліс д/п 250гр (код 28380) / Кетчуп Лагідний Оліс д/п 250гр (код 28212) / Кетчуп з часником Оліс д/п 250гр (код 44947)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-21-21-30</td>
+                        <td>2025-10-05-20-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">694</td>
+                        <td><strong>Гун СПЕЦ ЦЕНА (3кг) Стейк курячий (10609) 25грн (Рульки+Щедрики)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-25-21-30</td>
+                        <td>2025-09-29-20-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">735</td>
+                        <td><strong>Гунін Скидка 20% КУЛИНАРИЯ (БЦ100) 12:00-14:00</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">55</td>
+                        <td>2025-09-28-21-30</td>
+                        <td>2025-10-31-21-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">105</td>
+                        <td><strong>1+1=3 Сир плавлений Ферма дружба 70гр (24849)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">53</td>
+                        <td>2024-08-11-22-00</td>
+                        <td>2025-10-26-21-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">106</td>
+                        <td><strong>1+1=3 Сир плавлений Ферма вершковий 70гр (24848)</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">53</td>
+                        <td>2024-08-11-22-00</td>
+                        <td>2025-10-26-21-30</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">24</td>
+                        <td><strong>Скидка на овощи -25% Харьков+БЦ</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">51</td>
+                        <td>2022-09-04-21-00</td>
+                        <td>2026-01-31-21-59</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">119</td>
+                        <td><strong>повідомлення про подарунок Харків</strong></td>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">51</td>
+                        <td>2025-08-20-22-00</td>
+                        <td>2025-08-23-21-59</td>
+                    </tr>
+                </tbody></table><h2>📊 Розподіл правил за статусами</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Статус</th>
+                            <th>Кількість правил</th>
+                            <th>Відсоток</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    <tr>
+                        <td><span class="badge badge-inactive">Не активно</span></td>
+                        <td class="number-cell">152</td>
+                        <td class="number-cell">70.7%</td>
+                    </tr>
+                
+                    <tr>
+                        <td><span class="badge badge-active">Активно</span></td>
+                        <td class="number-cell">41</td>
+                        <td class="number-cell">19.07%</td>
+                    </tr>
+                
+                    <tr>
+                        <td><span class="badge badge-inactive">Тестування</span></td>
+                        <td class="number-cell">21</td>
+                        <td class="number-cell">9.77%</td>
+                    </tr>
+                
+                    <tr>
+                        <td><span class="badge badge-inactive">На затверджені</span></td>
+                        <td class="number-cell">1</td>
+                        <td class="number-cell">0.47%</td>
+                    </tr>
+                </tbody></table><h2>🎯 Правила з умовами застосування (rule_conditions)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID правила</th>
+                            <th>Назва</th>
+                            <th>Тип умови</th>
+                            <th>Оператор</th>
+                            <th>Значення</th>
+                            <th>Група</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    <tr>
+                        <td class="number-cell">896</td>
+                        <td>Ахтирка_47439</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">176</td>
+                        <td>1+1=3 Крекер з молочно-ванільною начинкою Ту Крек Рошен м/у 235гр (код 25191)</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[13, 572, 581, 1065, 1074, 1029, 1058, 1091, 1149, 813]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">1</td>
+                        <td>тест</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">693</td>
+                        <td>АУЦ 9999997-1 Кефір Яготинський 2,5% п/е 0,4л (код 6676)</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>=</td>
+                        <td>1046</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">717</td>
+                        <td>персональная скидка 5 % Машкин</td>
+                        <td><span class="highlight">Контрагент</span></td>
+                        <td>=</td>
+                        <td>123</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">732</td>
+                        <td>Гунін Скидка 20% КУЛИНАРИЯ (128 Суббота весь день)</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[11]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">732</td>
+                        <td>Гунін Скидка 20% КУЛИНАРИЯ (128 Суббота весь день)</td>
+                        <td><span class="highlight">День тижня</span></td>
+                        <td>=</td>
+                        <td>6</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">738</td>
+                        <td>ахтырка 10%</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[831]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">739</td>
+                        <td>ахтырка 3%</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[831]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">740</td>
+                        <td>ахтырка 7,5%</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">787</td>
+                        <td>ТЕСТ_Найменування</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[581, 10]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">788</td>
+                        <td>Ахтырка_7,5_НеВес_Уп12</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">789</td>
+                        <td>единий штрих код 20% </td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">790</td>
+                        <td>ТЕСТ_7777</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[287]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">791</td>
+                        <td>ТЕСТ_Найменування</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">792</td>
+                        <td>Ахтырка_5_НеВес_Уп9</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">793</td>
+                        <td>Ахтырка_2_НеВес_Шт2</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">794</td>
+                        <td>Ахтырка_5_НеВес_Шт5</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">797</td>
+                        <td>ТЕСТ_7777</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[287]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">799</td>
+                        <td>ТЕСТ_9999</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[287]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">800</td>
+                        <td>ТЕСТ_7777</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[287]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">801</td>
+                        <td>Напій б/алк сильногазований Пепсі п/пл 1,25л</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">802</td>
+                        <td>ТЕСТ_7777</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[287]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">803</td>
+                        <td>Напій б/алк сильногазований Пепсі п/пл 1,25л</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[823]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">804</td>
+                        <td>ТЕСТ_9999</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[287]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">805</td>
+                        <td>Напій б/алк сильногазований Пепсі п/пл 1,25л</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">806</td>
+                        <td>Напій б/алк сильногазований Пепсі п/пл 1,25л</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">807</td>
+                        <td>Напій б/алк сильногазований Пепсі п/пл 1,25л</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">808</td>
+                        <td>Сир плавлений Вершковий Ферма 40% 70гр</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">889</td>
+                        <td>Ахтирка_45824</td>
+                        <td><span class="highlight">Підрозділ</span></td>
+                        <td>None</td>
+                        <td>[1117]</td>
+                        <td>0</td>
+                    </tr>
+                </tbody></table><h2>🛒 Умови на чек (order_conditions)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID правила</th>
+                            <th>Назва</th>
+                            <th>Тип умови</th>
+                            <th>Оператор</th>
+                            <th>Значення</th>
+                            <th>Група</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    <tr>
+                        <td class="number-cell">169</td>
+                        <td>Гу КОМБО1к5 Макарони+Масло+Сос Прикопчені =(5/5/5)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">169</td>
+                        <td>Гу КОМБО1к5 Макарони+Масло+Сос Прикопчені =(5/5/5)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">169</td>
+                        <td>Гу КОМБО1к5 Макарони+Масло+Сос Прикопчені =(5/5/5)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>2.9</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">714</td>
+                        <td>Гу +20% (1) Сосиски з вершковим маслом в/с п/а (КМК) (код 40872) + Сосиски З вершковим маслом в/с п/а 0,268гр КМК (код 45390)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">715</td>
+                        <td>Гу +20% (2) Сосиски Дитячі в/с (п/а) (КМК) (код 27109) + Сосиски Дитячі в/с п/а 0,268гр КМК (код 45391)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">716</td>
+                        <td>Гу +20% (3) Сосиски Філейні 1с (п/а) (КМК) (код 29599) + Сосиски Філейні 1/с п/а 0,268гр КМК (код 45392)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">717</td>
+                        <td>персональная скидка 5 % Машкин</td>
+                        <td><span class="highlight">Сума товарів з урахуванням знижки та оплат бонусами, грн</span></td>
+                        <td>>=</td>
+                        <td>2500</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">719</td>
+                        <td>Гу +20% (4) Сосиски зі скоринкою в/с (КМК) (код 27955) + Сосиски зі скоринкою в/с КМК 0,268г шт (код 45687)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">753</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">754</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">755</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">756</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">757</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">759</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">760</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">763</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>None</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">764</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>None</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">765</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>None</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>></td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">714</td>
+                        <td>Гу +20% (1) Сосиски з вершковим маслом в/с п/а (КМК) (код 40872) + Сосиски З вершковим маслом в/с п/а 0,268гр КМК (код 45390)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">715</td>
+                        <td>Гу +20% (2) Сосиски Дитячі в/с (п/а) (КМК) (код 27109) + Сосиски Дитячі в/с п/а 0,268гр КМК (код 45391)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">716</td>
+                        <td>Гу +20% (3) Сосиски Філейні 1с (п/а) (КМК) (код 29599) + Сосиски Філейні 1/с п/а 0,268гр КМК (код 45392)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">717</td>
+                        <td>персональная скидка 5 % Машкин</td>
+                        <td><span class="highlight">Сума товарів з урахуванням знижки та оплат бонусами, грн</span></td>
+                        <td>>=</td>
+                        <td>2500</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">719</td>
+                        <td>Гу +20% (4) Сосиски зі скоринкою в/с (КМК) (код 27955) + Сосиски зі скоринкою в/с КМК 0,268г шт (код 45687)</td>
+                        <td><span class="highlight">Сума кількості товарів</span></td>
+                        <td>>=</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">753</td>
+                        <td>TEST</td>
+                        <td><span class="highlight">Присутній</span></td>
+                        <td>=</td>
+                        <td>{}</td>
+                        <td>0</td>
+                    </tr>
+                </tbody></table><h2>💰 Результати застосування знижок</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Назва правила</th>
+                            <th>Тип результату</th>
+                            <th>Тип значення</th>
+                            <th>Фікс. значення</th>
+                            <th>Вираз</th>
+                            <th>Тип часу знижки</th>
+                            <th>Набір товарів</th>
+                            <th>Режим застосування</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    <tr>
+                        <td class="number-cell">896</td>
+                        <td>Ахтирка_47439</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">1.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Ахтирка_47439</td>
+                        <td>Окремо по номенклатурі</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">896</td>
+                        <td>Ахтирка_47439</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">4.9</td>
+                        <td>47</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Ахтирка_47439</td>
+                        <td>Окремо по номенклатурі</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">166</td>
+                        <td>Гу КОМБО1к2 Макарони+Масло+Сос Прикопчені =(2/2/2)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Макарони Соренті (40874,40875,40876,40877)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">166</td>
+                        <td>Гу КОМБО1к2 Макарони+Масло+Сос Прикопчені =(2/2/2)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Масло Білоцерківське селянське 72,6% 180гр (9582)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">166</td>
+                        <td>Гу КОМБО1к2 Макарони+Масло+Сос Прикопчені =(2/2/2)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 СОСИСКИ ПРИКОПЧЕНІ (ЦЕЛ) (СМК) (1303)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">167</td>
+                        <td>Гу КОМБО1к3 Макарони+Масло+Сос Прикопчені =(3/3/3)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Макарони Соренті (40874,40875,40876,40877)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">167</td>
+                        <td>Гу КОМБО1к3 Макарони+Масло+Сос Прикопчені =(3/3/3)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Масло Білоцерківське селянське 72,6% 180гр (9582)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">167</td>
+                        <td>Гу КОМБО1к3 Макарони+Масло+Сос Прикопчені =(3/3/3)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 СОСИСКИ ПРИКОПЧЕНІ (ЦЕЛ) (СМК) (1303)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">168</td>
+                        <td>Гу КОМБО1к4 Макарони+Масло+Сос Прикопчені =(4/4/4)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Макарони Соренті (40874,40875,40876,40877)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">168</td>
+                        <td>Гу КОМБО1к4 Макарони+Масло+Сос Прикопчені =(4/4/4)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Масло Білоцерківське селянське 72,6% 180гр (9582)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">168</td>
+                        <td>Гу КОМБО1к4 Макарони+Масло+Сос Прикопчені =(4/4/4)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 СОСИСКИ ПРИКОПЧЕНІ (ЦЕЛ) (СМК) (1303)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">169</td>
+                        <td>Гу КОМБО1к5 Макарони+Масло+Сос Прикопчені =(5/5/5)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Макарони Соренті (40874,40875,40876,40877)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">169</td>
+                        <td>Гу КОМБО1к5 Макарони+Масло+Сос Прикопчені =(5/5/5)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 Масло Білоцерківське селянське 72,6% 180гр (9582)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">169</td>
+                        <td>Гу КОМБО1к5 Макарони+Масло+Сос Прикопчені =(5/5/5)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">15.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ1 СОСИСКИ ПРИКОПЧЕНІ (ЦЕЛ) (СМК) (1303)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">170</td>
+                        <td>Гу КОМБО9 тест К1 Молоко+Крем+Сардельки 0,5-0,99</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест1 Молоко Ферма 2,5% 0,9л т/ф (15463)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">170</td>
+                        <td>Гу КОМБО9 тест К1 Молоко+Крем+Сардельки 0,5-0,99</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест2 Крем сир Гуд Мілк м'який 20% 150гр ван (42266)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">170</td>
+                        <td>Гу КОМБО9 тест К1 Молоко+Крем+Сардельки 0,5-0,99</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест3 Сардельки Філейні в/с н/о (КМК) (27738)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">171</td>
+                        <td>Гу КОМБО9 тест К2 Молоко+Крем+Сардельки 1-1,99</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест1 Молоко Ферма 2,5% 0,9л т/ф (15463)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">171</td>
+                        <td>Гу КОМБО9 тест К2 Молоко+Крем+Сардельки 1-1,99</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест2 Крем сир Гуд Мілк м'який 20% 150гр ван (42266)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">171</td>
+                        <td>Гу КОМБО9 тест К2 Молоко+Крем+Сардельки 1-1,99</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест3 Сардельки Філейні в/с н/о (КМК) (27738)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">172</td>
+                        <td>Гу КОМБО9 тест К3 Молоко+Крем+Сардельки 1,5-3</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест1 Молоко Ферма 2,5% 0,9л т/ф (15463)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">172</td>
+                        <td>Гу КОМБО9 тест К3 Молоко+Крем+Сардельки 1,5-3</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест2 Крем сир Гуд Мілк м'який 20% 150гр ван (42266)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">172</td>
+                        <td>Гу КОМБО9 тест К3 Молоко+Крем+Сардельки 1,5-3</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест3 Сардельки Філейні в/с н/о (КМК) (27738)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">173</td>
+                        <td>Гу КОМБО9 тест К4 Молоко+Крем+Сардельки 2-4</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест1 Молоко Ферма 2,5% 0,9л т/ф (15463)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">173</td>
+                        <td>Гу КОМБО9 тест К4 Молоко+Крем+Сардельки 2-4</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест2 Крем сир Гуд Мілк м'який 20% 150гр ван (42266)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">173</td>
+                        <td>Гу КОМБО9 тест К4 Молоко+Крем+Сардельки 2-4</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест3 Сардельки Філейні в/с н/о (КМК) (27738)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест1 Молоко Ферма 2,5% 0,9л т/ф (15463)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест2 Крем сир Гуд Мілк м'який 20% 150гр ван (42266)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">174</td>
+                        <td>Гу КОМБО9 тест К5 Молоко+Крем+Сардельки >4</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">10.0</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>Гу КОМ9 тест3 Сардельки Філейні в/с н/о (КМК) (27738)</td>
+                        <td>До всіх відібраних позицій чека</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">176</td>
+                        <td>1+1=3 Крекер з молочно-ванільною начинкою Ту Крек Рошен м/у 235гр (код 25191)</td>
+                        <td><span class="highlight">None</span></td>
+                        <td>Фіксоване значення</td>
+                        <td class="number-cell">-</td>
+                        <td>-</td>
+                        <td>Сума за позицією, спочатку дорогий</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody></table><h2>🏆 ТОП-10 найбільш використовуваних наборів товарів</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Назва набору</th>
+                            <th>Зовнішній код</th>
+                            <th>Використань</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    <tr>
+                        <td class="number-cell">763</td>
+                        <td><strong>!!! Тест Кучмар 888</strong></td>
+                        <td>888</td>
+                        <td class="number-cell">32</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">91</td>
+                        <td><strong>Гу КОМ1 Макарони Соренті (40874,40875,40876,40877)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">9</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">170</td>
+                        <td><strong>Гу КОМ9 тест1 Молоко Ферма 2,5% 0,9л т/ф (15463)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">7</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">171</td>
+                        <td><strong>Гу КОМ9 тест2 Крем сир Гуд Мілк м'який 20% 150гр ван (42266)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">7</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">172</td>
+                        <td><strong>Гу КОМ9 тест3 Сардельки Філейні в/с н/о (КМК) (27738)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">7</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">162</td>
+                        <td><strong>Гу КОМ1 Масло Білоцерківське селянське 72,6% 180гр (9582)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">5</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">163</td>
+                        <td><strong>Гу КОМ1 СОСИСКИ ПРИКОПЧЕНІ (ЦЕЛ) (СМК) (1303)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">5</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">144</td>
+                        <td><strong>Гу КУЛИНАРИЯ 25/30%</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">5</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">117</td>
+                        <td><strong>Гун(4-??????) 1=2 Сосиски Буржуй в/c (цел) КМК (37447)</strong></td>
+                        <td>-</td>
+                        <td class="number-cell">5</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="number-cell">1103</td>
+                        <td><strong>Ахтирка_17035</strong></td>
+                        <td>000030133</td>
+                        <td class="number-cell">4</td>
+                    </tr>
+                </tbody></table>
+        <div class="footer">
+            <p>Згенеровано автоматично | ETL Pipeline для правил знижок</p>
+        </div>
+    </div>
+</body>
+</html>
+        
