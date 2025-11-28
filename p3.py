@@ -44,7 +44,6 @@ class Config:
         'login': '/api/login',
         'discount_rules': '/discountRule/list',
         'sku_sets': '/skuSet/list',
-        'sku_sets': '/skuSet/list',
         'locations': '/location/list',
         'merchants': '/merchant/list',
         'terminals': '/terminal/list'
@@ -379,8 +378,8 @@ class SQLiteManager:
                 operator_message TEXT,
                 operator_id INTEGER,
                 operator_id_desc TEXT,
-                begin_date BIGINT,
-                end_date BIGINT,
+                begin_date TIMESTAMP,
+                end_date TIMESTAMP,
                 status INTEGER NOT NULL DEFAULT 0,
                 priority INTEGER,
                 isolation_level INTEGER,
